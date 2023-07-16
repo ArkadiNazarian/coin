@@ -86,17 +86,17 @@ export default function Github<P extends GithubProfile>( options: OAuthUserConfi
             profile.email = (emails.find((e) => e.primary) ?? emails[0]).email
           }
         }
-       
+      //  console.log(profile)//
         return profile
       },
     },
     profile(profile) {
-        console.log(profile)
       return {
         id: profile.id.toString(),
         name: profile.name ?? profile.login,
         email: profile.email,
         image: profile.avatar_url,
+        hello:"dsadadad"
       }
     },
     style: {

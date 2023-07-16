@@ -28,16 +28,31 @@ export default NextAuth({
         })
     ],
     secret: process.env.JWT_SECRET,
-    // callbacks: {
-    //     async jwt({ token, user, account }) {
-    //         return { ...token};
-    //     },
-    //     async session({ session, token, user }) {
-    //         session.user = token as any;
-
-    //         return session;
-    //     },
-    // },
+    callbacks: {
+        // data ro tabdil mikone be jwt ba JWT_SECRET miare bala mesle hash
+        async jwt(context) {
+            // console.log('jwt context', context);
+            
+            const { token, user, account, profile } = context;
+      
+            if (user) {
+              // user.account = account;
+              token.user = user;
+            }
+            return token;
+          },
+          async session(context) {
+            // console.log('session context', context);
+            const { session, token } = context;
+            const user = token.user ;
+      
+            if (session && user) {
+              session.user = user;
+            }
+            return session;
+          },
+        
+    },
     // adapter: FirebaseAdapter({
     //     db:db,
     //     ...firestorefunctions
